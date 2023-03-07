@@ -4,9 +4,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+import delEditRoute from "./routers/del.edit.router.js";
+
 const app = express();
 app.use(json());
 app.use(cors());
+
+app.use(delEditRoute);
 
 const port = process.env.PORT || 5000;
 
