@@ -19,11 +19,11 @@ export const getPosts = async (req, res) => {
 
 export const newPost = async (req, res) => {
   const { url, content = null } = req.Params;
-  const { id } = req.headers;
+  const { userId } = req.locals;
   console.log(chalk.cyan('POST /timeline'));
 
   try {
-    await insertPost({ id, url, content });
+    await insertPost({ userId, url, content });
 
     return res.sendStatus(201);
   } catch (error) {
