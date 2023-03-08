@@ -3,7 +3,7 @@ import s from "../utils/statusCode.js";
 
 export async function del(req, res){
     const {id}= req.params;
-    const {userId}= res.locals.userId;
+    const userId= res.locals.userId;
 
     try{
         const data= await connection.query(
