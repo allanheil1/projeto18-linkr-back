@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 import authRouter from './routers/authRouter.js';
+import userRouter from './routers/userRouter.js';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(json());
 app.use(cors());
 app.use(helmet());
 app.use(authRouter);
+app.use(userRouter)
 
 const port = process.env.PORT || 5000;
 
