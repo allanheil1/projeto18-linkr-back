@@ -7,8 +7,11 @@ import authRouter from './routers/authRouter.js';
 import userRouter from './routers/userRouter.js';
 import delEditRoute from './routers/delEditRouter.js';
 import timelineRouter from './routers/timelineRouter.js';
+import likeRoute from "./routers/likeRouter.js";
 
 dotenv.config();
+
+
 
 const app = express();
 app.use(json());
@@ -18,6 +21,8 @@ app.use(authRouter);
 app.use(userRouter);
 app.use(delEditRoute);
 app.use(timelineRouter);
+app.use(likeRoute);
+
 
 const port = process.env.PORT || 5000;
 
