@@ -9,6 +9,7 @@ import userRouter from './routers/userRouter.js';
 dotenv.config();
 
 import delEditRoute from "./routers/delEditRouter.js";
+import likeRoute from "./routers/likeRouter.js";
 
 const app = express();
 app.use(json());
@@ -17,6 +18,7 @@ app.use(helmet());
 app.use(authRouter);
 app.use(userRouter);
 app.use(delEditRoute);
+app.use(likeRoute);
 
 
 const port = process.env.PORT || 5000;
