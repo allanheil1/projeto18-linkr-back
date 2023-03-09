@@ -1,5 +1,5 @@
-import {connection} from "../database/database.js";
-import s from "../utils/statusCode.js";
+import connection from "../database/database.js";
+import  {STATUS_CODE} from "../utils/statusCode.js";
 
 export async function del(req, res){
     const {id}= req.params;
@@ -12,13 +12,13 @@ export async function del(req, res){
         );
 
         if(data.rowCount===0){
-            return res.sendStatus(s.NOT_FOUND);
+            return res.sendStatus(STATUS_CODE.NOT_FOUND);
         }
 
         const post=data.rows;
 
         if(post.user_id!== userId){
-            return res.sendStatus(s.UNAUTHORIZED);
+            return res.sendStatus(STATUS_CODE.UNAUTHORIZED);
         }
 
         await connection.query(
@@ -28,7 +28,7 @@ export async function del(req, res){
 
         res.sendStatus(s.NO_CONTENT);
     }catch(err){
-        return res.status(s.SERVER_ERROR).send(err.message);
+        return res.status(STATUS_CODE.SERVER_ERROR).send(err.message);
     }
 }
 
@@ -44,13 +44,13 @@ export async function edit(req, res){
         );
 
         if(data.rowCount===0){
-            return res.sendStatus(s.NOT_FOUND);
+            return res.sendStatus(STATUS_CODE.NOT_FOUND);
         }
 
         const post= data.rows[0];
 
         if(post.user_id!==userId){
-            return res.sendStatus(s.BAD_REQUEST);
+            return res.sendStatus(STATUS_CODE.BAD_REQUEST);
         }
 
         await connection.query(
@@ -58,6 +58,6 @@ export async function edit(req, res){
             [newContent, id]
         )
     }catch(err){
-        return res.status(s.SERVER_ERROR.send(err.message));
+        return res.status(STATUS_CODE.SERVER_ERROR.send(err.message));
     }
 }

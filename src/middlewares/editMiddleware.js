@@ -1,4 +1,4 @@
-import s from "../utils/statusCode.js";
+import {STATUS_CODE} from "../utils/statusCode.js";
 import { newContentSchema } from "../schemas/newContentSchema.js";
 
 export async function newContentValidate(req, res, next){
@@ -9,11 +9,11 @@ export async function newContentValidate(req, res, next){
 
         if(error){
             const err=error.details.map((detail)=>detail.message);
-            return res.status(s.BAD_REQUEST).send({err});
+            return res.status(STATUS_CODE.BAD_REQUEST).send({err});
         }
 
         next;
     }catch(err){
-        return res.status(s.SERVER_ERROR).send(err.message);
+        return res.status(STATUS_CODE.SERVER_ERROR).send(err.message);
     }
 }
