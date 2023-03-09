@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { dislike, getLikes, like } from "../controllers/likeController";
-import { tokenValidate } from "../middlewares/tokenValidate";
+import { dislike, getLikes, like } from "../controllers/likeController.js";
+import { tokenValidate } from "../middlewares/tokenValidate.js";
 
 const router=Router();
 

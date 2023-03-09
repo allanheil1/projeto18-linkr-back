@@ -22,7 +22,8 @@
     "jsonwebtoken": "^9.0.0",
     "nodemon": "^2.0.21",
     "pg": "^8.10.0",
-    "string-strip-html": "^13.2.0"
+    "string-strip-html": "^13.2.0",
+    "url-metadata": "^2.5.0"
   },
   "devDependencies": {
     "commitizen": "^4.3.0",

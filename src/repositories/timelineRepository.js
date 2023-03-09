@@ -10,8 +10,11 @@ export const insertPost = async ({ userId, content, url }) => {
 
 export const listPosts = async (offset) => {
   return connection.query(`
-    SELECT * FROM posts
-    ORDER BY created_at DESC
+    SELECT p.id, u.name, u.photo, p.content, p.url
+    FROM posts p
+    JOIN users u
+    ON u.id = p.user_id
+    ORDER BY p.created_at DESC
     LIMIT 20
     OFFSET $1`,
     [offset]
