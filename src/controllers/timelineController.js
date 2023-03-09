@@ -1,6 +1,7 @@
 import chalk from 'chalk';
+import { fetchMetadataArray } from '../utils/fetchMetadataArray.js';
 import internalError from '../utils/internalError.js';
-import { insertPost } from '../repositories/timelineRepository.js';
+import { insertPost, listPosts } from '../repositories/timelineRepository.js';
 
 export const getPosts = async (req, res) => {
   const { offset = 0 } = req.Params;
@@ -11,7 +12,8 @@ export const getPosts = async (req, res) => {
 
     if (rowCount === 0) return res.sendStatus(404);
 
-    return res.status(200).send({ posts });
+    const metadataArray = await fetchMetadataArray(posts);
+    return res.status(200).send({ metadataArray });
   } catch (error) {
     internalError(error, res);
   }

@@ -6,9 +6,9 @@ import { newPost, getPosts } from '../controllers/timelineController.js';
 
 const timelineRouter = Router();
 
-timelineRouter.use(tokenValidate)
+// timelineRouter.use(tokenValidate)
 
 timelineRouter.get('/timeline', processRequestParams(listPostSchema), getPosts);
 timelineRouter.post('/timeline', processRequestParams(postSchema), newPost);
-timelineRouter.put('/timeline');
-timelineRouter.delete('/timeline');
+
+export default timelineRouter
