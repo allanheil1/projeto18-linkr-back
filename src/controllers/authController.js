@@ -28,7 +28,7 @@ async function signUp(req, res){
 
 async function signIn(req, res){
 
-    const { email, password, id } = res.locals;
+    const { email, password, id, photo } = res.locals;
 
     const secret = process.env.SECRET;
 
@@ -38,11 +38,16 @@ async function signIn(req, res){
 
     const token = jwt.sign(payload, secret);
 
+    const response = {
+        token: token,
+        photo: photo
+    }
+
     try{
 
         await findUser(email, password);
 
-        return res.status(200).send(token);
+        return res.status(200).send(response);
 
     } catch (err) {
         console.log(err);

@@ -31,7 +31,8 @@ async function signInValidation(req, res, next) {
             signInData = {
                 email: email,
                 password: userExists.rows[0].password,
-                id: userExists.rows[0].id
+                id: userExists.rows[0].id,
+                photo: userExists.rows[0].photo
               };
         }
     
