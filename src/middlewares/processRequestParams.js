@@ -10,7 +10,6 @@ const processRequestParams = (schema) => {
 
       return res.status(422).send({ message: errorMessages });
     }
-
     next();
   };
 };

@@ -1,6 +1,7 @@
 import connection from "../database/database.js"
 
-export const QueryUser =  (user_id)=>{
+export const QueryUser =  (userId)=>{
+    
     return connection.query(`SELECT 
     users.id as id, 
     users.name as name, 
@@ -21,5 +22,10 @@ export const QueryUser =  (user_id)=>{
     JOIN posts ON users.id = posts.user_id 
   WHERE users.id = $1
   GROUP BY users.id, users.name, users.photo;
-`,[user_id])
+`,[userId])
 }
+
+export const QuerySeache = (name) => {
+  return connection.query(`SELECT * FROM users;`);
+};
+
