@@ -26,4 +26,18 @@ function insertUser(email, encryptedPassword, username, pictureUrl) {
       );
 }
 
-export { validateEmailExists, insertUser };
+function findUser(email, password) {
+    return connection.query(
+        `SELECT 
+            * 
+        FROM 
+            users 
+        WHERE 
+            email=$1 
+        AND 
+            password=$2`,
+        [email, password]
+      );
+}
+
+export { validateEmailExists, insertUser, findUser };

@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 
 import { STATUS_CODE } from '../utils/statusCode.js';
-import { insertUser } from '../repositories/authRepository.js';
+import { insertUser, findUser } from '../repositories/authRepository.js';
 
 dotenv.config();
 
@@ -28,7 +28,21 @@ async function signUp(req, res){
 
 async function signIn(req, res){
 
+    const { email, password, id } = res.locals;
+
+    const secret = process.env.SECRET;
+
+    const payload = {
+        userId: id
+    }
+
+    const token = jwt.sign(payload, secret);
+
     try{
+
+        await findUser(email, password);
+
+        return res.status(200).send(token);
 
     } catch (err) {
         console.log(err);
