@@ -21,7 +21,6 @@ export const getPosts = async (req, res) => {
 export const newPost = async (req, res) => {
   const { url, content = "" } = req.Params;
   const userId = res.locals.userId;
-  console.log({userId})
   console.log(chalk.cyan('POST /timeline'));
 
   try {
