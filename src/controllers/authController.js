@@ -30,7 +30,7 @@ async function signIn(req, res){
 
     const { email, password, id, photo } = res.locals;
 
-    const secret = process.env.SECRET;
+    const secret = process.env.SECRET_KEY;
 
     const payload = {
         userId: id
