@@ -8,6 +8,7 @@ import userRouter from './routers/userRouter.js';
 import delEditRoute from './routers/delEditRouter.js';
 import timelineRouter from './routers/timelineRouter.js';
 import likeRoute from "./routers/likeRouter.js";
+import trendingRouter from './routers/trendingRouter.js';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(authRouter);
 app.use(userRouter);
 app.use(delEditRoute);
 app.use(timelineRouter);
+app.use(trendingRouter);
 app.use(likeRoute);
 
 
