@@ -5,7 +5,7 @@ async function getUserById(req, res){
     const userId =  res.locals.userId;
     try{
         const infoUser = await QueryUser(userId)
-        res.status(STATUS_CODE.OK).send(infoUser.rows[0])
+        res.status(STATUS_CODE.OK).send(infoUser.rows)
     } catch (err) {
         return res.status(STATUS_CODE.SERVER_ERROR).send(err);
     }
