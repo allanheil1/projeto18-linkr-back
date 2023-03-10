@@ -29,3 +29,23 @@ export async function postTrending(req, res){
         return res.status(STATUS_CODE.SERVER_ERROR).send(err);
     }*/
 }
+
+export async function getHashtagPosts(req,res){
+    const { hashtag } = req.params
+    try{
+        const trendingPosts = await connection.query(`select 
+        users.name, 
+        users.photo, 
+        posts.content, 
+        posts.url 
+        from post_hashtag 
+        JOIN posts ON posts.id = post_hashtag.post_id 
+        JOIN hashtag ON hashtag.id = post_hashtag.hashtag_id 
+        JOIN users ON posts.user_id = users.id
+        WHERE hashtag.name=$1;
+        `, [hashtag])
+        return res.status(STATUS_CODE.OK).send(trendingPosts.rows)
+    }catch(err){
+        return res.status(STATUS_CODE.SERVER_ERROR).send(err);
+    }
+}
