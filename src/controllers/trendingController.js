@@ -12,22 +12,24 @@ export async function getTrending(req, res) {
 }
 
 export async function postTrending(req, res){
-    /*const { hashtag, post_id, hashtag_id } = req.body
+    const { hashtag } = req.body
     const trending = hashtag?.replace("#", "")
 
     try{
         const hashtagRegistered = await connection.query(`SELECT * FROM hashtag WHERE name =$1`, [trending])
-        if(hashtagRegistered.rows.length === 0) {
-            await connection.query(`INSERT INTO post_hashtag (post_id, hashtag_id) VALUES ($1,$2);`, [post_id, hashtag_id])
+        if(hashtagRegistered.rows.length !== 0) {
+            const post_id = await connection.query(`SELECT COUNT(id)+1 AS post_id FROM posts;`)
+            await connection.query(`INSERT INTO post_hashtag (post_id, hashtag_id) VALUES ($1,$2);`, [post_id.rows[0].post_id, hashtagRegistered.rows[0].id])
             return res.sendStatus(STATUS_CODE.OK) 
         } else {
             await connection.query(`INSERT INTO hashtag (name) VALUES ($1);`, [trending])
-            await connection.query(`INSERT INTO post_hashtag (post_id, hashtag_id) VALUES ($1,$2);`, [post_id, hashtag_id])
+            const hashtagInserted = await connection.query(`SELECT * FROM hashtag WHERE name=$1;`, [trending])
+            await connection.query(`INSERT INTO post_hashtag (post_id, hashtag_id) VALUES ($1,$2);`, [post_id.rows[0].post_id, hashtagInserted.rows[0].id])
             return res.sendStatus(STATUS_CODE.OK)
         }
     }catch(err){
         return res.status(STATUS_CODE.SERVER_ERROR).send(err);
-    }*/
+    }
 }
 
 export async function getHashtagPosts(req,res){
