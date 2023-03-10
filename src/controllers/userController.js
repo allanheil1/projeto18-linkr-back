@@ -1,11 +1,15 @@
 import { STATUS_CODE } from '../utils/statusCode.js';
+import { fetchMetadataArray } from '../utils/fetchMetadataArray.js';
 import {QueryUser,QuerySeache} from "../repositories/getUserQuery.js";
 
 async function getUserById(req, res){
     const userId =  res.locals.userId;
     try{
-        const infoUser = await QueryUser(userId)
-        res.status(STATUS_CODE.OK).send(infoUser.rows)
+        const {rows: infoUser} = await QueryUser(userId)
+
+        const metadataArray = await fetchMetadataArray(infoUser);
+
+        res.status(STATUS_CODE.OK).send( metadataArray )
     } catch (err) {
         return res.status(STATUS_CODE.SERVER_ERROR).send(err);
     }
