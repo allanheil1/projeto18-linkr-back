@@ -8,9 +8,8 @@ export const getPosts = async (req, res) => {
   console.log(chalk.cyan('GET /timeline'));
 
   try {
-    const { rows: posts, rowCount } = await listPosts(offset);
+    const { rows: posts } = await listPosts(offset);
 
-    if (rowCount === 0) return res.sendStatus(404);
 
     const metadataArray = await fetchMetadataArray(posts);
     return res.status(200).send({ metadataArray });
@@ -20,7 +19,7 @@ export const getPosts = async (req, res) => {
 };
 
 export const newPost = async (req, res) => {
-  const { url, content = null } = req.Params;
+  const { url, content = "" } = req.Params;
   const userId = res.locals.userId;
   console.log({userId})
   console.log(chalk.cyan('POST /timeline'));
@@ -33,7 +32,3 @@ export const newPost = async (req, res) => {
     internalError(error, res);
   }
 };
-
-export const editPost = async (req, res) => {};
-
-export const deletePost = async (req, res) => {};
