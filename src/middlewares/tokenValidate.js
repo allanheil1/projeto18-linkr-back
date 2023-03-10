@@ -4,12 +4,11 @@ export const tokenValidate = async (req, res, next) => {
   const { authorization } = req.headers;
   const secretKey = process.env.SECRET_KEY;
   const token = authorization?.split(' ')[1]?.trim();
-
   if (!token) return res.status(401).send('Faça login para continuar');
 
   try {
     const decodedToken = jwt.verify(token, secretKey);
-
+    console.log({decodedToken})
     res.locals.userId = decodedToken.userId;
     next();
   } catch (error) {
