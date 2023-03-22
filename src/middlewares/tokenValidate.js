@@ -5,7 +5,6 @@ export const tokenValidate = async (req, res, next) => {
   const secretKey = process.env.SECRET_KEY;
   const token = authorization?.split(' ')[1]?.trim();
   if (!token) return res.status(401).send('Faça login para continuar');
-
   try {
     const decodedToken = jwt.verify(token, secretKey);
     const userId = decodedToken.userId;

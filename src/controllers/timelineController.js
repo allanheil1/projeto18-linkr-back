@@ -10,7 +10,6 @@ export const getPosts = async (req, res) => {
   try {
     const { rows: posts } = await listPosts(offset);
 
-
     const metadataArray = await fetchMetadataArray(posts);
     return res.status(200).send({ metadataArray });
   } catch (error) {
@@ -19,13 +18,12 @@ export const getPosts = async (req, res) => {
 };
 
 export const newPost = async (req, res) => {
-  const { url, content = "" } = req.Params;
+  const { url, content = '' } = req.Params;
   const userId = res.locals.userId;
   console.log(chalk.cyan('POST /timeline'));
 
   try {
     await insertPost({ userId, url, content });
-
     return res.sendStatus(201);
   } catch (error) {
     internalError(error, res);
