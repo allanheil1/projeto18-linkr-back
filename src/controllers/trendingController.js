@@ -1,7 +1,7 @@
 import connection from "../database/database.js";
 import { STATUS_CODE } from "../utils/statusCode.js";
 
-export async function getTrending(req, res) {
+export async function getTrending(_, res) {
     try {
         const trending = await connection.query(`SELECT COUNT(post_hashtag.hashtag_id), hashtag.name FROM post_hashtag JOIN hashtag ON post_hashtag.hashtag_id = hashtag.id GROUP BY hashtag.id ORDER BY count DESC LIMIT 10;
         `)
