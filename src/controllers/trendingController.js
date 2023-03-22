@@ -1,4 +1,5 @@
 import connection from "../database/database.js";
+import { fetchMetadataArray } from "../utils/fetchMetadataArray.js";
 import { STATUS_CODE } from "../utils/statusCode.js";
 
 export async function getTrending(_, res) {
@@ -21,8 +22,6 @@ export async function postTrending(req, res){
         const hashtagRegistered = await connection.query(`SELECT * FROM hashtag WHERE name =$1`, [trending])
         const post_id = await connection.query(`SELECT COUNT(id) AS post_id FROM posts;`)
 
-        console.log(hashtagRegistered.rows.length)
-
         if(hashtagRegistered.rows.length !== 0) {
             await connection.query(`INSERT INTO post_hashtag (post_id, hashtag_id) VALUES ($1,$2);`, [post_id.rows[0].post_id , hashtagRegistered.rows[0].id])
             return res.sendStatus(STATUS_CODE.OK) 
@@ -41,11 +40,12 @@ export async function getHashtagPosts(req,res){
     const { hashtag } = req.params
     try{
         const trendingPosts = await connection.query(`SELECT 
+        users.id,
         users.name, 
         users.photo, 
         posts.content, 
         posts.url,
-        posts.id
+        posts.id AS post_id
         from post_hashtag 
         JOIN posts ON posts.id = post_hashtag.post_id 
         JOIN hashtag ON hashtag.id = post_hashtag.hashtag_id 
@@ -53,7 +53,9 @@ export async function getHashtagPosts(req,res){
         WHERE hashtag.name=$1
         ORDER BY posts.id DESC;
         `, [hashtag])
-        return res.status(STATUS_CODE.OK).send(trendingPosts.rows)
+        const metadataArray = await fetchMetadataArray(trendingPosts.rows)
+        console.log(metadataArray)
+        return res.status(STATUS_CODE.OK).send({metadataArray})
     }catch(err){
         return res.status(STATUS_CODE.SERVER_ERROR).send(err);
     }
