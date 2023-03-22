@@ -40,16 +40,18 @@ export async function postTrending(req, res){
 export async function getHashtagPosts(req,res){
     const { hashtag } = req.params
     try{
-        const trendingPosts = await connection.query(`select 
+        const trendingPosts = await connection.query(`SELECT 
         users.name, 
         users.photo, 
         posts.content, 
-        posts.url 
+        posts.url,
+        posts.id
         from post_hashtag 
         JOIN posts ON posts.id = post_hashtag.post_id 
         JOIN hashtag ON hashtag.id = post_hashtag.hashtag_id 
         JOIN users ON posts.user_id = users.id
-        WHERE hashtag.name=$1;
+        WHERE hashtag.name=$1
+        ORDER BY posts.id DESC;
         `, [hashtag])
         return res.status(STATUS_CODE.OK).send(trendingPosts.rows)
     }catch(err){
