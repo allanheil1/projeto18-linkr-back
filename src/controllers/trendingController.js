@@ -3,7 +3,8 @@ import { STATUS_CODE } from "../utils/statusCode.js";
 
 export async function getTrending(req, res) {
     try {
-        const trending = await connection.query(`SELECT COUNT(post_hashtag.hashtag_id), hashtag.name FROM post_hashtag JOIN hashtag ON post_hashtag.hashtag_id = hashtag.id GROUP BY hashtag.id LIMIT 10;`)
+        const trending = await connection.query(`SELECT COUNT(post_hashtag.hashtag_id), hashtag.name FROM post_hashtag JOIN hashtag ON post_hashtag.hashtag_id = hashtag.id GROUP BY hashtag.id ORDER BY count DESC LIMIT 10;
+        `)
         return res.status(STATUS_CODE.OK).send(trending.rows)
 
     } catch (err) {
@@ -13,7 +14,8 @@ export async function getTrending(req, res) {
 
 export async function postTrending(req, res){
     const { hashtag } = req.body
-    const trending = hashtag?.replace("#", "")
+    if(!hashtag) return res.sendStatus(STATUS_CODE.OK)
+    const trending = hashtag.replace("#", "")
 
     try{
         const hashtagRegistered = await connection.query(`SELECT * FROM hashtag WHERE name =$1`, [trending])
