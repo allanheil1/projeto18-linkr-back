@@ -2,10 +2,10 @@ import { Router } from "express";
 import { dislike, getLikes, like } from "../controllers/likeController.js";
 import { tokenValidate } from "../middlewares/tokenValidate.js";
 
-const router=Router();
+const likeRouter = Router();
 
-router.get("/likes/:id", getLikes);
-router.post("/like/:id", tokenValidate, like);
-router.post("/dislike/:id", tokenValidate, dislike);
+likeRouter.get("/likes/:postId", tokenValidate, getLikes);
+likeRouter.post("/like/:postId", tokenValidate, like);
+likeRouter.post("/dislike/:postId", tokenValidate, dislike);
 
-export default router;
+export default likeRouter;
