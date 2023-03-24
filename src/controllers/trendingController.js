@@ -24,7 +24,7 @@ export async function postTrending(req, res){
 
         if(hashtagRegistered.rows.length !== 0) {
             await connection.query(`INSERT INTO post_hashtag (post_id, hashtag_id) VALUES ($1,$2);`, [post_id.rows[0].post_id , hashtagRegistered.rows[0].id])
-            return res.sendStatus(STATUS_CODE.OK) 
+            return res.sendStatus(STATUS_CODE.OK)
         } else {
             await connection.query(`INSERT INTO hashtag (name) VALUES ($1);`, [trending])
             const hashtagInserted = await connection.query(`SELECT * FROM hashtag WHERE name=$1;`, [trending])
@@ -39,16 +39,17 @@ export async function postTrending(req, res){
 export async function getHashtagPosts(req,res){
     const { hashtag } = req.params
     try{
-        const trendingPosts = await connection.query(`SELECT 
+        const trendingPosts = await connection.query(`SELECT
         users.id,
-        users.name, 
-        users.photo, 
-        posts.content, 
+        users.name,
+        users.photo,
+        posts.content,
         posts.url,
-        posts.id AS post_id
-        from post_hashtag 
-        JOIN posts ON posts.id = post_hashtag.post_id 
-        JOIN hashtag ON hashtag.id = post_hashtag.hashtag_id 
+        posts.id AS post_id,
+        posts.created_at
+        from post_hashtag
+        JOIN posts ON posts.id = post_hashtag.post_id
+        JOIN hashtag ON hashtag.id = post_hashtag.hashtag_id
         JOIN users ON posts.user_id = users.id
         WHERE hashtag.name=$1
         ORDER BY posts.id DESC;
