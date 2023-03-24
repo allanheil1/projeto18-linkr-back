@@ -1,14 +1,13 @@
 import urlMetadata from 'url-metadata';
 
 export const fetchMetadataArray = async (posts) => {
-  const fetchMetadata = async ({ id, post_id: postId, name, photo, content, url }) => {
-    //console.log(id, postId, name, photo, content, url)
+  const fetchMetadata = async ({ id, post_id: postId, name, photo, content, url, created_at: createdAt }) => {
     try {
       const { title: urlTitle, description: urlDescription, image: urlImage } = await urlMetadata(url);
-      return { id, postId, name, photo, content, url, urlTitle, urlDescription, urlImage };
+      return { id, postId, name, photo, content, url, createdAt, urlTitle, urlDescription, urlImage };
     } catch (error) {
       console.error(`Error fetching metadata for URL '${url}': ${error}`);
-      return { id, postId, name, photo, content, url };
+      return { id, postId, name, photo, content, url, createdAt };
     }
   };
 

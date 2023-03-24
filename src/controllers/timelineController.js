@@ -1,14 +1,14 @@
 import chalk from 'chalk';
 import { fetchMetadataArray } from '../utils/fetchMetadataArray.js';
 import internalError from '../utils/internalError.js';
-import { insertPost, listPosts } from '../repositories/timelineRepository.js';
+import { insertPost, listPosts, countNewPosts } from '../repositories/timelineRepository.js';
 
 export const getPosts = async (req, res) => {
-  const { offset = 0 } = req.Params;
+  const { offset = 0, limit = 10 } = req.Params;
   console.log(chalk.cyan('GET /timeline'));
 
   try {
-    const { rows: posts } = await listPosts(offset);
+    const { rows: posts } = await listPosts({offset, limit});
 
     const metadataArray = await fetchMetadataArray(posts);
     return res.status(200).send({ metadataArray });
@@ -25,6 +25,18 @@ export const newPost = async (req, res) => {
   try {
     await insertPost({ userId, url, content });
     return res.sendStatus(201);
+  } catch (error) {
+    internalError(error, res);
+  }
+};
+
+export const checkNewPost = async (req, res) => {
+  const { lastPostCreatedAt } = req.Params;
+  const lastPostCreatedAtFormatted = new Date(lastPostCreatedAt);
+
+  try {
+    const { rows: posts } = await countNewPosts(lastPostCreatedAtFormatted);
+    return res.status(200).send(posts[0].new_posts_count);
   } catch (error) {
     internalError(error, res);
   }
