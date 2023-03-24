@@ -7,27 +7,38 @@ export async function del(req, res){
 
     try{
         const data= await connection.query(
-            `SELECT * FROM posts WHERE id=$1`,
+            `SELECT * FROM posts WHERE id = $1`,
             [id]
         );
 
-        if(data.rowCount===0){
+        if(data.rowCount === 0){
             return res.sendStatus(STATUS_CODE.NOT_FOUND);
         }
 
-        const post=data.rows;
+        const post = data.rows[0];
 
         if(post.user_id!== userId){
             return res.sendStatus(STATUS_CODE.UNAUTHORIZED);
         }
 
         await connection.query(
+            `DELETE FROM post_likes WHERE post_id=$1`,
+            [id]
+        );
+        
+        await connection.query(
+            `DELETE FROM post_hashtag WHERE post_id=$1`,
+            [id]
+        );
+
+        await connection.query(
             `DELETE FROM posts WHERE id=$1`,
             [id]
         );
 
-        res.sendStatus(s.NO_CONTENT);
+        res.sendStatus(STATUS_CODE.NO_CONTENT);
     }catch(err){
+        console.log(err);
         return res.status(STATUS_CODE.SERVER_ERROR).send(err.message);
     }
 }
