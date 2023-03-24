@@ -7,7 +7,7 @@ import authRouter from './routers/authRouter.js';
 import userRouter from './routers/userRouter.js';
 import delEditRoute from './routers/delEditRouter.js';
 import timelineRouter from './routers/timelineRouter.js';
-import likeRoute from "./routers/likeRouter.js";
+import likeRouter from "./routers/likeRouter.js";
 import trendingRouter from './routers/trendingRouter.js';
 
 dotenv.config();
@@ -20,10 +20,12 @@ app.use(cors());
 app.use(helmet());
 app.use(authRouter);
 app.use(userRouter);
+app.use(likeRouter);
 app.use(delEditRoute);
 app.use(timelineRouter);
 app.use(trendingRouter);
-app.use(likeRoute);
+
+
 
 
 const port = process.env.PORT || 5000;
