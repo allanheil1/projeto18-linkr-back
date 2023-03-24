@@ -9,7 +9,7 @@ export const insertPost = async ({ userId, content, url }) => {
   );
 };
 
-export const listPosts = async (offset) => {
+export const listPosts = async ({offset, limit}) => {
   return connection.query(
     `
     SELECT u.id,p.id AS post_id, u.name, u.photo, p.content, p.url, p.created_at
@@ -17,9 +17,9 @@ export const listPosts = async (offset) => {
     JOIN users u
     ON u.id = p.user_id
     ORDER BY p.created_at DESC
-    LIMIT 10
+    LIMIT $2
     OFFSET $1`,
-    [offset]
+    [offset, limit]
   );
 };
 

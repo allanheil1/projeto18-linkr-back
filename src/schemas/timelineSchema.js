@@ -6,7 +6,8 @@ export const postSchema = Joi.object({
 });
 
 export const listPostSchema = Joi.object({
-  offset: Joi.number().integer().min(0)
+  offset: Joi.number().integer().optional(),
+  limit: Joi.number().integer().optional()
 });
 
 export const checkNewPostsSchema = Joi.object({

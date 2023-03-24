@@ -4,11 +4,11 @@ import internalError from '../utils/internalError.js';
 import { insertPost, listPosts, countNewPosts } from '../repositories/timelineRepository.js';
 
 export const getPosts = async (req, res) => {
-  const { offset = 0 } = req.Params;
+  const { offset = 0, limit = 10 } = req.Params;
   console.log(chalk.cyan('GET /timeline'));
 
   try {
-    const { rows: posts } = await listPosts(offset);
+    const { rows: posts } = await listPosts({offset, limit});
 
     const metadataArray = await fetchMetadataArray(posts);
     return res.status(200).send({ metadataArray });
@@ -33,12 +33,10 @@ export const newPost = async (req, res) => {
 export const checkNewPost = async (req, res) => {
   const { lastPostCreatedAt } = req.Params;
   const lastPostCreatedAtFormatted = new Date(lastPostCreatedAt);
-  console.log(chalk.cyan('GET /timeline/posts/:lastPostCreatedAt'));
 
   try {
     const { rows: posts } = await countNewPosts(lastPostCreatedAtFormatted);
-    console.log(lastPostCreatedAtFormatted)
-    return res.status(200).send(posts[0]);
+    return res.status(200).send(posts[0].new_posts_count);
   } catch (error) {
     internalError(error, res);
   }

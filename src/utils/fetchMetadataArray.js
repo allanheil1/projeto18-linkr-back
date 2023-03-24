@@ -1,9 +1,7 @@
 import urlMetadata from 'url-metadata';
 
 export const fetchMetadataArray = async (posts) => {
-  const fetchMetadata = async ({ id, post_id: postId, name, photo, content, url, created_at:
-    createdAt }) => {
-      console.log(createdAt)
+  const fetchMetadata = async ({ id, post_id: postId, name, photo, content, url, created_at: createdAt }) => {
     try {
       const { title: urlTitle, description: urlDescription, image: urlImage } = await urlMetadata(url);
       return { id, postId, name, photo, content, url, createdAt, urlTitle, urlDescription, urlImage };
