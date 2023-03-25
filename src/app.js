@@ -9,6 +9,7 @@ import delEditRoute from './routers/delEditRouter.js';
 import timelineRouter from './routers/timelineRouter.js';
 import likeRouter from "./routers/likeRouter.js";
 import trendingRouter from './routers/trendingRouter.js';
+import followRouter from './routers/followRouter.js';
 import commentRouter from './routers/commentRouter.js';
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(likeRouter);
 app.use(delEditRoute);
 app.use(timelineRouter);
 app.use(trendingRouter);
+app.use(followRouter);
 app.use(commentRouter);
 
 
