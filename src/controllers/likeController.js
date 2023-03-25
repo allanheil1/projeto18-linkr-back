@@ -1,11 +1,13 @@
 import connection from '../database/database.js';
 import { STATUS_CODE } from '../utils/statusCode.js';
 
-export async function getLikes(req, res) {
+export async function getLikesAndOwnership(req, res) {
 
   const { postId }  = req.params;
 
   const userId = res.locals.userId;
+
+  let ownership = false;
 
   let userLiked = false;
 
@@ -21,10 +23,17 @@ export async function getLikes(req, res) {
       userLiked = true;
     }
 
+    const postCreatorUserId = await connection.query(`SELECT user_id FROM posts WHERE id=$1`, [postId]);
+
+     if(postCreatorUserId.rows[0].user_id === userId){
+        ownership = true;
+    } 
+
     const data = await connection.query(`SELECT * FROM post_likes WHERE post_id=$1`, [postId]);
 
     const likes = data.rowCount;
-    res.status(STATUS_CODE.OK).send({ likes, userLiked });
+
+    res.status(STATUS_CODE.OK).send({ likes, userLiked, ownership });
 
   } catch (err) {
     return res.status(STATUS_CODE.SERVER_ERROR).send(err.message);
