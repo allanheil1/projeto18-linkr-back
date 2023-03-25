@@ -8,7 +8,6 @@ export const tokenValidate = async (req, res, next) => {
   try {
     const decodedToken = jwt.verify(token, secretKey);
     const userId = decodedToken.userId;
-
     res.locals.userId = userId;
     next();
   } catch (error) {
