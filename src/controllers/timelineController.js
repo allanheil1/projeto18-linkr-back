@@ -5,10 +5,11 @@ import { insertPost, listPosts, countNewPosts } from '../repositories/timelineRe
 
 export const getPosts = async (req, res) => {
   const { offset = 0, limit = 10 } = req.Params;
+  const userId = res.locals.userId;
   console.log(chalk.cyan('GET /timeline'));
 
   try {
-    const { rows: posts } = await listPosts({offset, limit});
+    const { rows: posts } = await listPosts({ offset, limit, userId });
 
     const metadataArray = await fetchMetadataArray(posts);
     return res.status(200).send({ metadataArray });
@@ -33,9 +34,10 @@ export const newPost = async (req, res) => {
 export const checkNewPost = async (req, res) => {
   const { lastPostCreatedAt } = req.Params;
   const lastPostCreatedAtFormatted = new Date(lastPostCreatedAt);
+  const userId = res.locals.userId;
 
   try {
-    const { rows: posts } = await countNewPosts(lastPostCreatedAtFormatted);
+    const { rows: posts } = await countNewPosts(lastPostCreatedAtFormatted, userId);
     return res.status(200).send(posts[0].new_posts_count);
   } catch (error) {
     internalError(error, res);
