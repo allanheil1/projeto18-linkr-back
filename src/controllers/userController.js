@@ -11,14 +11,14 @@ async function getUserById(req, res){
 
         res.status(STATUS_CODE.OK).send( metadataArray )
     } catch (err) {
+        console.log(err)
         return res.status(STATUS_CODE.SERVER_ERROR).send(err);
     }
 }
 
 async function searche(req, res) {
-    const { name } = req.query;
     try {
-        const infoUser = await QuerySeache(name);
+        const infoUser = await QuerySeache();
         return res.send(infoUser.rows);
     } catch (error) {
         console.log(error)
