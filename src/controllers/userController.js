@@ -18,8 +18,9 @@ async function getUserById(req, res){
 }
 
 async function searche(req, res) {
+    const userId = res.locals.userId;
     try {
-        const infoUser = await QuerySeache();
+        const infoUser = await QuerySeache(userId);
         return res.send(infoUser.rows);
     } catch (error) {
         console.log(error)
