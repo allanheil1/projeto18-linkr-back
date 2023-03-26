@@ -20,7 +20,7 @@ export const listPosts = async ({ offset, limit, userId }) => {
     LEFT JOIN posts p ON p.user_id = u.id
     LEFT JOIN follows f ON f.followed_id = p.user_id OR f.user_id = p.user_id
   WHERE
-    f.user_id = $3  -- id do usuário atual
+    f.user_id = $3 or p.user_id = $3  -- id do usuário atual
   GROUP BY
     u.id, p.id
   ORDER BY
@@ -31,15 +31,16 @@ export const listPosts = async ({ offset, limit, userId }) => {
   );
 };
 
-export const countNewPosts = async (lastPostCreatedAt, userId ) => {
+export const countNewPosts = async (lastPostCreatedAt, userId, postId ) => {
   return connection.query(
     `
-    SELECT COUNT(DISTINCT p.id) -1 AS new_posts_count
+    SELECT COUNT(p.user_id) AS new_posts_count
     FROM posts p
-    JOIN follows f ON p.user_id = f.followed_id
+    LEFT JOIN follows f ON p.user_id = f.followed_id
     WHERE (p.user_id = $2 OR f.user_id = $2)
-    AND p.created_at > $1;
+    AND p.created_at > $1
+    AND p.id <> $3;
     `,
-    [lastPostCreatedAt, userId]
+    [lastPostCreatedAt, userId, postId]
   );
 };

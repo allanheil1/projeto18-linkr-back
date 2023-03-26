@@ -11,5 +11,6 @@ export const listPostSchema = Joi.object({
 });
 
 export const checkNewPostsSchema = Joi.object({
-  lastPostCreatedAt: Joi.date().required()
+  lastPostCreatedAt: Joi.date().required(),
+  postId: Joi.number().required()
 });
