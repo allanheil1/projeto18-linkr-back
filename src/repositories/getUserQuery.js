@@ -12,5 +12,5 @@ export const QueryUser =  (userId)=>{
 `,[userId])
 }
 export const QuerySeache = () => {
-  return connection.query(`SELECT * FROM users;`);
+  return connection.query(`SELECT * FROM users FULL JOIN follows ON users.id=follows.followed_id;`);
 };
