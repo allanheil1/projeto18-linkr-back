@@ -1,4 +1,4 @@
-import connection from "../database/database";
+import connection from "../database/database.js";
 import  {STATUS_CODE} from "../utils/statusCode.js";
 
 export async function repost(req, res) {

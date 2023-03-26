@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { tokenValidate } from "../middlewares/tokenValidate";
-import { repost } from "../controllers/repostController";
+import { tokenValidate } from "../middlewares/tokenValidate.js";
+import { repost } from "../controllers/repostController.js";
 
 const router = Router();
 
