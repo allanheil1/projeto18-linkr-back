@@ -32,12 +32,11 @@ export const newPost = async (req, res) => {
 };
 
 export const checkNewPost = async (req, res) => {
-  const { lastPostCreatedAt } = req.Params;
+  const { lastPostCreatedAt, postId } = req.Params;
   const lastPostCreatedAtFormatted = new Date(lastPostCreatedAt);
   const userId = res.locals.userId;
-
   try {
-    const { rows: posts } = await countNewPosts(lastPostCreatedAtFormatted, userId);
+    const { rows: posts } = await countNewPosts(lastPostCreatedAtFormatted, userId, postId);
     return res.status(200).send(posts[0].new_posts_count);
   } catch (error) {
     internalError(error, res);

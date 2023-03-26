@@ -3,7 +3,6 @@ import { newContentSchema } from "../schemas/newContentSchema.js";
 
 export async function newContentValidate(req, res, next){
     const {newContent} = req.body;
-    console.log(newContent)
     try{
         const {error}= newContentSchema.validate(newContent, {abortEarly:false});
 
