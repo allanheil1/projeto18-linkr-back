@@ -55,7 +55,6 @@ export async function getHashtagPosts(req,res){
         ORDER BY posts.id DESC;
         `, [hashtag])
         const metadataArray = await fetchMetadataArray(trendingPosts.rows)
-        console.log(metadataArray)
         return res.status(STATUS_CODE.OK).send({metadataArray})
     }catch(err){
         return res.status(STATUS_CODE.SERVER_ERROR).send(err);

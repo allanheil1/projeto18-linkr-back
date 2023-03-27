@@ -5,7 +5,7 @@ import { tokenValidate } from '../middlewares/tokenValidate.js';
 
 const userRouter = Router();
 
-userRouter.get('/user/:id',tokenValidate,authUser, getUserById);
+userRouter.get('/user/:id',tokenValidate, authUser, getUserById);
 userRouter.get("/users",tokenValidate, searche)
 
 export default userRouter
