@@ -13,6 +13,9 @@ export const QueryUser =  (userId)=>{
     ORDER BY p.created_at DESC
 `,[userId])
 }
-export const QuerySeache = () => {
-  return connection.query(`SELECT * FROM users;`);
+export const QuerySeache = (userId) => {
+  return connection.query(`select * from users full join follows on users.id = follows.followed_id where follows.user_id = $1
+   union
+   select * from users full join follows on users.id = follows.followed_id where follows.user_id is null
+  order by user_id;`, [userId]);
 };
