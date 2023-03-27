@@ -10,10 +10,11 @@ export const fetchMetadataArray = async (posts) => {
     url,
     created_at: createdAt,
     comment_count: commentCount,
-    repost_count: repostCount
+    repost_count: repostCount,
+    repost_user_id: repostedBy
   }) => {
     try {
-      const { title: urlTitle, description: urlDescription, image: urlImage } = await urlMetadata(url);
+      const { title: urlTitle, description: urlDescription, image: urlImage} = await urlMetadata(url);
       return {
         id,
         postId,
@@ -26,7 +27,8 @@ export const fetchMetadataArray = async (posts) => {
         repostCount,
         urlTitle,
         urlDescription,
-        urlImage
+        urlImage,
+        repostedBy
       };
     } catch (error) {
       console.error(`Error fetching metadata for URL '${url}': ${error}`);
