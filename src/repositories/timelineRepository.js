@@ -13,7 +13,6 @@ export const listPosts = async ({ offset, limit, userId }) => {
   return connection.query(
     `
   SELECT u.id, p.id AS post_id, u.name, u.photo, p.content, p.url, p.created_at,
-    EXISTS(SELECT 1 FROM follows WHERE user_id = $3 LIMIT 1) AS follows_anyone,
     (SELECT COUNT(*) FROM post_comments pc WHERE pc.post_id = p.id) AS comment_count
   FROM
     users u
@@ -28,6 +27,15 @@ export const listPosts = async ({ offset, limit, userId }) => {
   LIMIT $2
   OFFSET $1;`,
     [offset, limit, userId]
+  );
+};
+
+export const checkFallowsAnyone = async (userId) => {
+  return connection.query(
+    `
+    SELECT EXISTS(SELECT 1 FROM follows WHERE user_id = $1) AS follows_someone;
+    `,
+    [ userId]
   );
 };
 
