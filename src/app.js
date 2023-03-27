@@ -27,7 +27,9 @@ app.use(likeRouter);
 app.use(delEditRoute);
 app.use(timelineRouter);
 app.use(trendingRouter);
-
+app.use(repostRouter);
+app.use(followRouter);
+app.use(commentRouter);
 
 
 
