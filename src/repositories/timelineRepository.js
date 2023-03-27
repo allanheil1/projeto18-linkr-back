@@ -12,16 +12,18 @@ export const insertPost = async ({ userId, content, url }) => {
 export const listPosts = async ({ offset, limit, userId }) => {
   return connection.query(
     `
-  SELECT u.id, p.id AS post_id, u.name, u.photo, p.content, p.url, p.created_at,
-    (SELECT COUNT(*) FROM post_comments pc WHERE pc.post_id = p.id) AS comment_count
+    SELECT u.id, p.id AS post_id, u.name, u.photo, p.content, p.url, p.created_at,
+    (SELECT COUNT(*) FROM post_comments pc WHERE pc.post_id = p.id) AS comment_count,
+    r.user_id AS repost_user_id
   FROM
     users u
     LEFT JOIN posts p ON p.user_id = u.id
     LEFT JOIN follows f ON f.followed_id = p.user_id OR f.user_id = p.user_id
+    LEFT JOIN repost r ON r.post_id = p.id
   WHERE
     f.user_id = $3 or p.user_id = $3  -- id do usuário atual
   GROUP BY
-    u.id, p.id
+    u.id, p.id, r.user_id, r.created_at
   ORDER BY
     p.created_at DESC
   LIMIT $2
