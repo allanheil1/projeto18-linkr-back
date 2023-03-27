@@ -17,3 +17,21 @@ export async function repost(req, res) {
         return res.status(STATUS_CODE.SERVER_ERROR).send(err.message);
     }
 }
+
+export async function getRepost(req, res){
+    const {postId}= req.params;
+
+    try{
+        const repost= await connection.query(
+            `SELECT * FROM repost WHERE post_id=$1`,
+            [postId]
+        );
+
+        let qnt=repost.rowCount;
+
+        res.status(STATUS_CODE.OK).send({ qnt });
+    }catch(err){
+        console.log(err);
+        return res.status(STATUS_CODE.SERVER_ERROR).send(err.message);
+    }
+}
